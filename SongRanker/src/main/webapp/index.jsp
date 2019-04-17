@@ -6,15 +6,15 @@
   </head>
 
   <body>
+  
     <h1>Home - JSP</h1>
+    
+    <h2>Search for an Artist</h2>
 
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
-      </tr>
-      <tr>
-        <td><a href='/searchArtist.html'>/addArtist</a></td>
-      </tr>
-    </table>
+    <form action="/searchArtist" method="get" target="_blank">
+        <input type="text" name="artistName"><br>
+        <input type="submit" value="Search">
+    </form>
+    
   </body>
 </html>

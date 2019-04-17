@@ -7,10 +7,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(
-    name = "Base",
-    urlPatterns = {"/addArtist"}
+    name = "SearchArtist",
+    urlPatterns = {"/searchArtist"}
 )
-public class Base extends HttpServlet {
+public class SearchArtist extends HttpServlet {
+	
+/*
+ * 
+ * Search database for artists name "artistName"
+ * if exists, go to artistListing.jsp with attribute artistName 
+ * else go to addArtist.jsp with attribute artistName
+ * 
+ */
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
