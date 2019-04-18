@@ -57,9 +57,13 @@ public class SearchArtist extends HttpServlet {
 	  // retrieve  query results asynchronously using query.get()
 	  ApiFuture<QuerySnapshot> querySnapshot = query.get();
 
+	  String id = null;
+	  
 	  try {
 		for (DocumentSnapshot document : querySnapshot.get().getDocuments()) {
-		    System.out.println(document.getId());
+		    if (document.getId() != null) {
+		    	id = document.getId();
+		    } 
 		  }
 	} catch (InterruptedException e) {
 		// TODO Auto-generated catch block
@@ -71,9 +75,15 @@ public class SearchArtist extends HttpServlet {
     
     FirebaseApp.getInstance().delete();
     
-    response.setContentType("text/plain");
-    response.setCharacterEncoding("UTF-8");
-    response.getWriter().print(request.getParameter("artistName") + "\r\n");
+    if (id != null) {
+    	request.setAttribute("id", id);
+    	request.getRequestDispatcher("listArtist.jsp").include(request, response);
+    } else {
+    	response.setContentType("text/plain");
+    	response.setCharacterEncoding("UTF-8");
+    	response.getWriter().print(request.getParameter("artistName") + "\r\n");
+    
+    }
 
   }
 }
