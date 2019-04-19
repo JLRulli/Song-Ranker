@@ -25,10 +25,10 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 
 @WebServlet(
-    name = "AddEntry",
-    urlPatterns = {"/addEntry"}
+    name = "UpdateEntries",
+    urlPatterns = {"/updateEntries"}
 )
-public class AddEntry extends HttpServlet {
+public class UpdateEntries extends HttpServlet {
 	
 /*
  * 
