@@ -3,7 +3,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import javax.servlet.ServletException;
@@ -19,15 +22,16 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 
 @WebServlet(
-    name = "AddEntry",
-    urlPatterns = {"/addEntry"}
+    name = "AddArtist",
+    urlPatterns = {"/addArtist"}
 )
-public class AddEntry extends HttpServlet {
+public class AddArtist extends HttpServlet {
 	
 /*
  * 
@@ -52,11 +56,18 @@ public class AddEntry extends HttpServlet {
 
 	  String aname = request.getParameter("artistName");
     
+	  // Create a Map to store the data we want to set
+	  Map<String, Object> docData = new HashMap<>();
+	  docData.put("name", aname);
+	  
+	  // Add a new document (asynchronously) in collection "cities" with id "LA"
+	  ApiFuture<WriteResult> future = db.collection("artists").document(aname).set(docData);
+	  
 	  FirebaseApp.getInstance().delete();
     
 	  	response.setContentType("text/plain");
 	  	response.setCharacterEncoding("UTF-8");
-	  	response.getWriter().print(aname + "\r\n");
+	  	response.getWriter().print("test" + "\r\n");
 
   }
 }

@@ -3,7 +3,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import javax.servlet.RequestDispatcher;
@@ -21,6 +23,7 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
@@ -110,9 +113,18 @@ public class SearchArtist extends HttpServlet {
     	
     } else {
     	
-    	response.setContentType("text/plain");
-    	response.setCharacterEncoding("UTF-8");
-    	response.getWriter().print(request.getParameter("artistName") + "\r\n");
+    	// Create a Map to store the data we want to set
+  	  Map<String, Object> docData = new HashMap<>();
+  	  docData.put("name", aname);
+  	  
+  	  // Add a new document (asynchronously) in collection "cities" with id "LA"
+  	  ApiFuture<WriteResult> future = db.collection("artists").document(aname).set(docData);
+  	  
+  	request.setAttribute("artistName", aname);
+	RequestDispatcher rd = request.getRequestDispatcher("/listArtist.jsp");
+	
+	FirebaseApp.getInstance().delete();
+	rd.forward(request,response);
     
     }
 
