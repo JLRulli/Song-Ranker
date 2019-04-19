@@ -24,10 +24,10 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 
 @WebServlet(
-    name = "ListArtist",
-    urlPatterns = {"/listArtist"}
+    name = "AddEntry",
+    urlPatterns = {"/addEntry"}
 )
-public class ListArtistJava extends HttpServlet {
+public class AddEntry extends HttpServlet {
 	
 /*
  * 
@@ -55,7 +55,9 @@ public class ListArtistJava extends HttpServlet {
     
 	  FirebaseApp.getInstance().delete();
     
-	  System.out.println("name : " + aname + " - id : " + id);
+	  	response.setContentType("text/plain");
+	  	response.setCharacterEncoding("UTF-8");
+	  	response.getWriter().print(request.getParameter("artistName") + "\r\n");
 
   }
 }

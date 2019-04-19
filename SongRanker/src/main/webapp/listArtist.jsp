@@ -9,7 +9,18 @@
 
   <body>
   
-    <h1>${artistName}</h1>
+    <h1>${artistName} / ${id}</h1>
+    
+    <%
+		String name=request.getParameter("artistName");
+		String id=request.getParameter("id");
+	%>
+    
+    <form action="/addEntry" method="get" target="_blank">
+    	<input type="hidden" name="artistName" value="<%=name%>">
+    	<input type="hidden" name="id" value="<%=id%>">
+        <input type="submit" value="Add Entry">
+    </form>
     
     <p>
     	<c:forEach items="${entries}" var="item" >
