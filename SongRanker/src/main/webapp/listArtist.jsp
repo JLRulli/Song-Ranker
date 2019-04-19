@@ -1,3 +1,5 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -7,16 +9,15 @@
 
   <body>
   
-    <h1>name : ${artistName}</h1>
-    
-    <h2>id : ${id}</h2>
+    <h1>${artistName}</h1>
     
     <p>
-    line 1
-    <br>
-    line 2
-    <br>
-    line 3
+    	<c:forEach items="${entries}" var="item" >
+    		<c:forEach items="${item}" var="item2" >
+    			${item2}<br>
+			</c:forEach>
+			<br>
+		</c:forEach>
     </p>
 
     

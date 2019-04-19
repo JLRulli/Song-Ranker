@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,7 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -72,16 +74,42 @@ public class SearchArtist extends HttpServlet {
 		e.printStackTrace();
 	  }
     
-    FirebaseApp.getInstance().delete();
-    
     if (id != null) {
     	
-    	//List<List<String>> queries = new ArrayList<List<String>>();
+    	List<List<String>> queries = new ArrayList<List<String>>();
     	
+    	ApiFuture<QuerySnapshot> future =
+    		    db.collection("artists").document(id).collection("entries").get();
+    		List<QueryDocumentSnapshot> documents = null;
+			try {
+				documents = future.get().getDocuments();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		for (DocumentSnapshot document : documents) {
+    			List<String> entry = new ArrayList<String>();
+    			entry.add(document.getId());
+    			List<String> songs = (List<String>) document.get("songs");
+    			for (int i = 0; i < songs.size(); i++) {
+    				entry.add(songs.get(i));
+    			}
+    			queries.add(entry);
+    		}
+    		
+    	request.setAttribute("entries", queries);
     	request.setAttribute("id", id);
     	request.setAttribute("artistName", aname);
-    	request.getRequestDispatcher("listArtist.jsp").forward(request, response);
+    	RequestDispatcher rd = request.getRequestDispatcher("/listArtist.jsp");
+    	
+    	FirebaseApp.getInstance().delete();
+    	rd.forward(request,response);
+    	
     } else {
+    	
     	response.setContentType("text/plain");
     	response.setCharacterEncoding("UTF-8");
     	response.getWriter().print(request.getParameter("artistName") + "\r\n");

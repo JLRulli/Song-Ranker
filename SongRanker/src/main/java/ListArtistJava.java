@@ -27,7 +27,7 @@ import com.google.firebase.cloud.FirestoreClient;
     name = "ListArtist",
     urlPatterns = {"/listArtist"}
 )
-public class ListArtist extends HttpServlet {
+public class ListArtistJava extends HttpServlet {
 	
 /*
  * 
@@ -51,41 +51,11 @@ public class ListArtist extends HttpServlet {
 	  Firestore db = FirestoreClient.getFirestore();
 
 	  String aname = request.getParameter("artistName");
-	  
-	  CollectionReference cities = db.collection("artists");
-	  Query query = cities.whereEqualTo("name", aname);
-	  ApiFuture<QuerySnapshot> querySnapshot = query.get();
-
-	  String id = null;
-	  
-	  try {
-		for (DocumentSnapshot document : querySnapshot.get().getDocuments()) {
-		    if (document.getId() != null) {
-		    	id = document.getId();
-		    } 
-		}
-	  } catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	  } catch (ExecutionException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	  }
+	  String id = request.getParameter("id");
     
-    FirebaseApp.getInstance().delete();
+	  FirebaseApp.getInstance().delete();
     
-    if (id != null) {
-    	
-    	List<List<String>> queries = new ArrayList<List<String>>();
-    	
-    	request.setAttribute("id", id);
-    	request.getRequestDispatcher("listArtist.jsp").include(request, response);
-    } else {
-    	response.setContentType("text/plain");
-    	response.setCharacterEncoding("UTF-8");
-    	response.getWriter().print(request.getParameter("artistName") + "\r\n");
-    
-    }
+	  System.out.println("name : " + aname + " - id : " + id);
 
   }
 }
