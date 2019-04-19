@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.servlet.ServletException;
@@ -50,11 +52,8 @@ public class SearchArtist extends HttpServlet {
 
 	  String aname = request.getParameter("artistName");
 	  
-	// Create a reference to the cities collection
 	  CollectionReference cities = db.collection("artists");
-	  // Create a query against the collection.
 	  Query query = cities.whereEqualTo("name", aname);
-	  // retrieve  query results asynchronously using query.get()
 	  ApiFuture<QuerySnapshot> querySnapshot = query.get();
 
 	  String id = null;
@@ -64,20 +63,24 @@ public class SearchArtist extends HttpServlet {
 		    if (document.getId() != null) {
 		    	id = document.getId();
 		    } 
-		  }
-	} catch (InterruptedException e) {
+		}
+	  } catch (InterruptedException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
-	} catch (ExecutionException e) {
+	  } catch (ExecutionException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
-	}
+	  }
     
     FirebaseApp.getInstance().delete();
     
     if (id != null) {
+    	
+    	//List<List<String>> queries = new ArrayList<List<String>>();
+    	
     	request.setAttribute("id", id);
-    	request.getRequestDispatcher("listArtist.jsp").include(request, response);
+    	request.setAttribute("artistName", aname);
+    	request.getRequestDispatcher("listArtist.jsp").forward(request, response);
     } else {
     	response.setContentType("text/plain");
     	response.setCharacterEncoding("UTF-8");

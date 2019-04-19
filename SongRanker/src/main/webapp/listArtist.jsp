@@ -7,9 +7,18 @@
 
   <body>
   
-    <h1>listArtist</h1>
+    <h1>name : ${artistName}</h1>
     
-    <h2>${id}</h2>
+    <h2>id : ${id}</h2>
+    
+    <p>
+    line 1
+    <br>
+    line 2
+    <br>
+    line 3
+    </p>
+
     
   </body>
 </html>
