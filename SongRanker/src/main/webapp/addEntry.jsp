@@ -17,6 +17,7 @@
 
     <form action="/updateEntries" method="get" target="_blank">
     	<input type="hidden" name="artistName" value="<%=name%>">
+    	Your Name <input type="text" name="userName"><br>
         #1 <input type="text" name="song1"><br>
         #2 <input type="text" name="song2"><br>
         #3 <input type="text" name="song3"><br>
