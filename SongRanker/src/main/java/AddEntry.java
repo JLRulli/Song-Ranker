@@ -43,6 +43,7 @@ public class AddEntry extends HttpServlet {
       throws IOException, ServletException {
 
 	  	String aname = request.getParameter("artistName");
+	  	
 	  
 	  	request.setAttribute("artistName", aname);
   		RequestDispatcher rd = request.getRequestDispatcher("/addEntry.jsp");

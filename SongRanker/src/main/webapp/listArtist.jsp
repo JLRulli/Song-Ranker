@@ -15,7 +15,7 @@
 		String name=request.getParameter("artistName");
 	%>
     
-    <form action="/addEntry" method="get" target="_blank">
+    <form action="/addEntry" method="get" target="_blank">c
     	<input type="hidden" name="artistName" value="<%=name%>">
         <input type="submit" value="Add Entry">
     </form>

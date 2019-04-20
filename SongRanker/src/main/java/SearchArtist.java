@@ -121,6 +121,7 @@ public class SearchArtist extends HttpServlet {
   	  ApiFuture<WriteResult> future = db.collection("artists").document(aname).set(docData);
   	  
   	request.setAttribute("artistName", aname);
+  	//request.setAttribute("db", db);
 	RequestDispatcher rd = request.getRequestDispatcher("/listArtist.jsp");
 	
 	FirebaseApp.getInstance().delete();

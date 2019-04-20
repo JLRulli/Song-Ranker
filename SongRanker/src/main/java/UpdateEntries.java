@@ -22,6 +22,7 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseApp;
@@ -70,17 +71,44 @@ public class UpdateEntries extends HttpServlet {
 
 		  Firestore db = FirestoreClient.getFirestore();
 	  	
-	  	// Create a Map to store the data we want to set
-	  	Map<String, Object> docData = new HashMap<>();
-	  	docData.put("songs", Arrays.asList(song1, song2, song3, song4, song5));
-	  	// Add a new document (asynchronously) in collection "cities" with id "LA"
-	  	ApiFuture<WriteResult> future = db.collection("artists").document(aname).collection("entries").document(userName).set(docData);
-	  	
-	  	
-    	FirebaseApp.getInstance().delete();
+		  List<List<String>> queries = new ArrayList<List<String>>();
+	    	
+	    	ApiFuture<QuerySnapshot> future =
+	    		    db.collection("artists").document(aname).collection("entries").get();
+	    		List<QueryDocumentSnapshot> documents = null;
+				try {
+					documents = future.get().getDocuments();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		for (DocumentSnapshot document : documents) {
+	    			List<String> entry = new ArrayList<String>();
+	    			entry.add(document.getId());
+	    			List<String> songs = (List<String>) document.get("songs");
+	    			for (int i = 0; i < songs.size(); i++) {
+	    				entry.add(songs.get(i));
+	    			}
+	    			queries.add(entry);
+	    		}
+	    		
+	    		System.out.println(queries);
+	    		
+	    		Map<String, Object> docData = new HashMap<>();
+	    	  	  docData.put("name", "testing");
+	    	  	  
+	    	  	  // Add a new document (asynchronously) in collection "cities" with id "LA"
+	    	  	  ApiFuture<WriteResult> future2 = db.collection("artists").document(aname).set(docData);
+	  	 
+	  
 	  	request.setAttribute("artistName", aname);
-  		RequestDispatcher rd = request.getRequestDispatcher("/listArtist.jsp");
-  		rd.forward(request,response);
+		RequestDispatcher rd = request.getRequestDispatcher("/listArtist.jsp");
+		
+		FirebaseApp.getInstance().delete();
+		rd.forward(request,response);
 
   }
 }
