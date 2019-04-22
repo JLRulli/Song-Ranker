@@ -42,6 +42,7 @@ public class AddEntry extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) 
       throws IOException, ServletException {
 
+	  
 	  	String aname = request.getParameter("artistName");
 	  	
 	  
